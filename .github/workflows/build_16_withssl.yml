@@ -117,11 +117,11 @@ jobs:
        
   build_ios:
     name: iOS
-    runs-on: macos-latest
+    runs-on: macos-13
     steps:
     - uses: maxim-lobanov/setup-xcode@v1
       with:
-        xcode-version: '12'
+        xcode-version: '14.3'
     - uses: actions/checkout@v2
     - name: npm install
       shell: bash
