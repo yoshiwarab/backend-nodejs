@@ -52,7 +52,7 @@ GYP_DEFINES+=" ios_target_arch=arm64"
 GYP_DEFINES+=" host_os=$HOST_OS OS=ios"
 export GYP_DEFINES
 
-if [ "$WITHSSL" == "" ]; then
+if [ "$WITH_SSL" == "" ]; then
   echo "=========================building without-ssl version================================="
   ./configure \
       --ninja \
