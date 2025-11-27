@@ -36,12 +36,8 @@ jobs:
         mv puerts-node/nodejs puerts-node/nodejs_16
     - uses: actions/upload-artifact@v4
       with:
-        name: nodejs_bin
-        path: puerts-node/**/*
-    - uses: actions/upload-artifact@v4
-      with:
         name: nodejs_bin_win_x64
-        path: ~/puerts-node/**/*
+        path: puerts-node/**/*
         
   build_windows_32:
     name: Windows-32
@@ -68,7 +64,7 @@ jobs:
         mv puerts-node/nodejs puerts-node/nodejs_16
     - uses: actions/upload-artifact@v4
       with:
-        name: nodejs_bin
+        name: nodejs_bin_win_x86
         path: puerts-node/**/*
           
   build_macos:
@@ -86,10 +82,6 @@ jobs:
     - name: Rename
       run: |
         mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
-    - uses: actions/upload-artifact@v4
-      with:
-        name: nodejs_bin
-        path: ~/puerts-node/**/*
     - uses: actions/upload-artifact@v4
       with:
         name: nodejs_bin_mac_x64
@@ -112,7 +104,7 @@ jobs:
         mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
     - uses: actions/upload-artifact@v4
       with:
-        name: nodejs_bin
+        name: nodejs_bin_mac_arm64
         path: ~/puerts-node/**/*
        
   build_ios:
@@ -138,7 +130,7 @@ jobs:
         mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
     - uses: actions/upload-artifact@v4
       with:
-        name: nodejs_bin
+        name: nodejs_bin_ios
         path: ~/puerts-node/**/*
          
   build_linux:
@@ -159,7 +151,7 @@ jobs:
         cp $GITHUB_WORKSPACE/puer-build.json ~/puerts-node/nodejs_16
     - uses: actions/upload-artifact@v4
       with:
-        name: nodejs_bin
+        name: nodejs_bin_linux
         path: ~/puerts-node/**/*
   
   build_android_arm64_shared:
@@ -184,7 +176,7 @@ jobs:
           mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
       - uses: actions/upload-artifact@v4
         with:
-          name: nodejs_bin
+          name: nodejs_bin_android_arm64_shared
           path: ~/puerts-node/**/*
         
   build_android_armv7_shared:
@@ -213,7 +205,7 @@ jobs:
           mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
       - uses: actions/upload-artifact@v4
         with:
-          name: nodejs_bin
+          name: nodejs_bin_android_armv7_shared
           path: ~/puerts-node/**/*
 
   build_android_arm64:
@@ -238,7 +230,7 @@ jobs:
           mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
       - uses: actions/upload-artifact@v4
         with:
-          name: nodejs_bin
+          name: nodejs_bin_android_arm64
           path: ~/puerts-node/**/*
         
   build_android_armv7:
@@ -267,17 +259,18 @@ jobs:
           mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
       - uses: actions/upload-artifact@v4
         with:
-          name: nodejs_bin
+          name: nodejs_bin_android_armv7
           path: ~/puerts-node/**/*
         
   publish:
     runs-on: ubuntu-latest
     needs: [build_windows,build_windows_32,build_macos,build_macos_arm64,build_linux,build_ios,build_android_arm64,build_android_armv7,build_android_arm64_shared,build_android_armv7_shared]
     steps:
-      - uses: actions/download-artifact@v1
+      - uses: actions/download-artifact@v4
         with:
-          name: nodejs_bin
+          pattern: nodejs_bin_*
           path: nodejs_bin/
+          merge-multiple: true
           
       - name: Create Release Asset
         run: |
